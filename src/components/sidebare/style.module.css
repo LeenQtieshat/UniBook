@@ -1,0 +1,17 @@
+.sidebareContainer {
+  background: rgb(139, 125, 73);
+  background: linear-gradient(
+    104deg,
+    rgba(139, 125, 73, 1) 0%,
+    rgba(210, 201, 154, 0.8548669467787114) 65%
+  );
+  position: fixed;
+  width: 305px;
+  padding-top: 50px;
+  color: #fff;
+}
+.menu {
+  background: transparent;
+
+  font-size: 20px;
+}

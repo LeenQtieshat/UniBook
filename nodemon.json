@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "js,jsx,json",
+  "ignore": ["src/**/*.test.js", "src/setupTests.js"],
+  "exec": "npm start"
+}
