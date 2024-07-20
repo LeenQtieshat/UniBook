@@ -1,10 +1,13 @@
 import React from "react";
 
-import { Menu } from "antd";
-import { BookOutlined } from "@ant-design/icons";
+import { Button, Menu } from "antd";
+import { BookOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+
 
 import styles from "./style.module.css";
-function Sidebare({ setTerm }) {
+import { useNavigate } from "react-router";
+function Sidebare({ setTerm, researchPage}) {
+ const router =  useNavigate()
   const onClick = (e) => {
     setTerm(e.key);
   };
@@ -26,6 +29,32 @@ function Sidebare({ setTerm }) {
       label: "Calling Code",
       icon: <BookOutlined />,
     },
+    {
+      key: "Back",
+      label: "Back",
+      icon: <ArrowLeftOutlined />,
+      onClick:()=>window.history.back()
+    },
+  ];
+  const researchItem = [
+    {
+      key: "add",
+      label: "Research Proposal",
+      icon: <BookOutlined />,
+      onClick:()=>router("/research-proposal")
+    },
+    {
+      key: "Edit Proposal",
+      label: "Edit Proposal",
+      icon: <BookOutlined />,
+    
+    },
+    {
+      key: "Back",
+      label: "Back",
+      icon: <ArrowLeftOutlined />,
+      onClick:()=>window.history.back()
+    },
   ];
   return (
     <div className={styles.sidebareContainer}>
@@ -39,15 +68,18 @@ function Sidebare({ setTerm }) {
       >
         Filter
       </div>
+
       <Menu
         onClick={onClick}
         defaultSelectedKeys={["1"]}
         defaultOpenKeys={["sub1"]}
         mode="inline"
-        items={items}
+        items={researchPage? researchItem: items}
         className={styles.menu}
-        style={{ width: "305px", height: "100vh" }}
+        style={{ width: "305px", height: "calc( 100vh - 50px)"}}
       />
+
+
     </div>
   );
 }
