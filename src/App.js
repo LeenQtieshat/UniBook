@@ -1,7 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./screens/home";
-import Profile from "./screens/profile";
 import Research from "./screens/research";
 import { Routes, Route } from "react-router-dom";
 import Search from "./screens/search";
