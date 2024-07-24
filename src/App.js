@@ -7,6 +7,7 @@ import "./App.css";
 import NewPost from "./screens/newPost";
 import ResearchDetails from "./components/researchDetails"
 import BookReservation from "./screens/bookBook";
+import Profile from "../src/screens/profile"
 const App = () => {
   return (
     <>
@@ -18,6 +19,35 @@ const App = () => {
         <Route path="/research-proposal" element={<NewPost />} />
         <Route path="/research/:researchId" element={<ResearchDetails />} />
         <Route path="/booklist/book/:bookId" element={<BookReservation />} />
+        <Route path="/profile" element={<Profile  bookedBooks={[  {
+    verticalCode: "BUF34285",
+    title: "الظواهر الفلكية والجوية في القرآن الكريم / رفيق جميل شاكر الخانجي.",
+    author: "الخانجي، رفيق جميل شاكر،",
+    callingCode: "227.5 خان",
+    publishDate: "2002",
+  },
+  {
+    verticalCode: "BUF34286",
+    title:
+      "آيات الساعة العظمى : يأجوج ومأجوج-المسيح الدجال-الدابة / تأليف عصام يوسف.",
+    author: "يوسف، عصام.",
+    callingCode: "214.3 يوس",
+    publishDate: "2014",
+  },]} likedBooks={[  {
+    verticalCode: "BUF34285",
+    title: "الظواهر الفلكية والجوية في القرآن الكريم / رفيق جميل شاكر الخانجي.",
+    author: "الخانجي، رفيق جميل شاكر،",
+    callingCode: "227.5 خان",
+    publishDate: "2002",
+  },
+  {
+    verticalCode: "BUF34286",
+    title:
+      "آيات الساعة العظمى : يأجوج ومأجوج-المسيح الدجال-الدابة / تأليف عصام يوسف.",
+    author: "يوسف، عصام.",
+    callingCode: "214.3 يوس",
+    publishDate: "2014",
+  },]} />} />
 
       </Routes>
     </>
