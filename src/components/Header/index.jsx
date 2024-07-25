@@ -6,9 +6,14 @@ import { Link } from "react-router-dom";
 import "./styles.css";
 import { SearchOutlined, LoginOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
+import { useNavigate } from "react-router";
+
+
 
 function Nav() {
   const [displayMenu, setDisplay] = useState(false);
+  const navigator = useNavigate()
+
   return (
     <div className="headerContainer">
       <div className="headerLogo">
@@ -63,9 +68,15 @@ function Nav() {
                             {
                               key: "1",
                               label: "Logout",
+                            },  {
+                              key: "2",
+                              label: "profile",
                             },
                           ]}
-                          onClick={() => logout()}
+                          onClick={(e) =>{
+if(e.key == 1) logout()
+navigator("/profile")}
+                          }
                         />
                       </div>
                     )}
