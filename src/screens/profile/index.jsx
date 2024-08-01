@@ -1,8 +1,10 @@
 import { Menu } from 'antd';
 import {  AppstoreOutlined,UserAddOutlined ,BookFilled,InfoCircleFilled,LikeFilled,IdcardOutlined } from '@ant-design/icons';
 import Header from "../../components/Header"
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Segmented ,Popover ,Row, Col, Typography,message,List} from 'antd';
+import {AuthContext} from "../../context/auth/authContext"
+import { useNavigate } from 'react-router';
 
 const { Title, Text } = Typography;
 
@@ -11,6 +13,8 @@ const App = () => {
   const [likes,setLikes] = useState([])
   const [comments,setComments] = useState([])
   const [selectedOption, setSelectedOption] = useState('');
+  const {isAuthenticated} = useContext(AuthContext)
+  const navigator = useNavigate()
 
   useEffect(()=>{
     setBooks( [
@@ -164,6 +168,7 @@ const App = () => {
   const [displayBook,setDisplayBook] = useState(false)
   const [displayComments,setDisplayComments] = useState(false)
   const [displayLikes,setDisplayLikes] = useState(false)
+  if(!isAuthenticated) navigator("/")
  return  <> 
   <Header/>
  

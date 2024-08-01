@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Menu } from "antd";
 import { AzureAD } from "react-aad-msal";
 import { authProvider } from "../../authProvider";
@@ -7,13 +7,15 @@ import "./styles.css";
 import { SearchOutlined, LoginOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { useNavigate } from "react-router";
+import {AuthContext} from "../../context/auth/authContext"
 
 
 
 function Nav() {
   const [displayMenu, setDisplay] = useState(false);
   const navigator = useNavigate()
-
+  const authContextConsumer = useContext(AuthContext)
+console.log("√",authContextConsumer)
   return (
     <div className="headerContainer">
       <div className="headerLogo">
@@ -42,9 +44,9 @@ function Nav() {
       <div className="headerAvatar">
         <AzureAD provider={authProvider} forceLogin={false}>
           {({ login, logout, authenticationState, accountInfo }) => {
-            console.log("accountInfo", accountInfo);
             switch (authenticationState) {
               case "Authenticated": {
+                authContextConsumer.authLogin(accountInfo)
                 return (
                   <div className="avatarContainer">
                     <p

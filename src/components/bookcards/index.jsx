@@ -51,8 +51,8 @@ function BookCards({ term, searchTerm }) {
       }}
     >
       {filletedBooks.length > 0
-        ? filletedBooks.map(({ title, author }) => (
-            <BookCard title={title} author={author} />
+        ? filletedBooks.map(({ title, author,id}) => (
+            <BookCard title={title} author={author}  id={id}/>
           ))
         : null}
     </div>

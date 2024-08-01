@@ -37,7 +37,7 @@ const layoutStyle = {
 
 };
 
-const App = ({ title, author }) => {
+const BookDetails = ({ title, author,id }) => {
   const [cardDetails,setDetails] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigator = useNavigate()
@@ -47,7 +47,7 @@ const App = ({ title, author }) => {
   };
   const handleOk = () => {
     setIsModalOpen(false);
-    navigator(`/booklist/book/${1}`)
+    navigator(`/booklist/book/${id}`)
     
   };
   const handleCancel = () => {
@@ -119,4 +119,4 @@ const App = ({ title, author }) => {
   </div>
   </>
 )};
-export default App;
+export default BookDetails;

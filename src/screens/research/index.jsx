@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import Sidebare from "../../components/sidebare";
 import Proposals from "../../components/proposals";
 import Filtration from "../../components/filteration"
 import Title from "antd/es/skeleton/Title";
+import { AuthContext } from "../../context/auth/authContext";
+import { useNavigate } from 'react-router';
 
 function BookList() {
   const [term, setTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const {isAuthenticated} = useContext(AuthContext)
+  console.log("🚀 ~ BookList ~ isAuthenticated:", isAuthenticated)
+  const navigator = useNavigate()
+
+
+  if(!isAuthenticated) {
+     navigator("/")
+   console.log( "----",    navigator("/")
+  )
+    console.log("rrrrrr")
+  }
+
   return (
     <div style={{ display: "flex" }}>
       {/* Sidebare */}

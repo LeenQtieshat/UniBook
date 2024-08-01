@@ -23,9 +23,8 @@ const AuthProvider = ({ children }) => {
   };
 
   // Check if the user is authenticated
-  const isAuthenticated = () => {
-    return !!user;
-  };
+  const isAuthenticated =  !!user
+  
 
   // Value object to be provided to the context consumers
   const value = {

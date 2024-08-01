@@ -62,7 +62,7 @@ const ProposalsPosts = () => {
         <div className="site-layout-content">
         
           {proposals.map((proposal, index) => (
-            <Card key={index}  title={<span style={{ color: '#4096ff', fontSize: '18px', fontWeight: 'bold' }}>{proposal.title}</span>} title= style={{  backgroundColor: '#4096ff',
+            <Card key={index}  title={<span style={{ color: '#4096ff', fontSize: '18px', fontWeight: 'bold' }}>{proposal.title}</span>} style={{  backgroundColor: '#4096ff',
   background: "rgb(225, 217, 171)",
   background: "linear-gradient( 90deg, rgba(225, 217, 171, 1) 0%,rgba(139, 125, 73, 1) 35%)",marginBottom: '20px', borderRadius: '10px',background:'rgb(240 240 240 / 24% '}}>
               <div style={{ padding: '10px', background: '#fff', borderRadius: '10px' }}>

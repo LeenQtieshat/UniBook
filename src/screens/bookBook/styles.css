@@ -1,0 +1,57 @@
+.bookDetailsContainer{
+    position: relative;
+    display: flex;
+ text-align: left ;
+
+}
+
+
+.bookCover {
+    position: absolute;
+    top: calc(45% - 150px);
+    left: calc(19% - 150px);
+  
+   
+}
+.sidebar{
+    background: rgb(225, 217, 171);
+    background: linear-gradient(
+      90deg,
+      rgba(225, 217, 171, 1) 0%,
+      rgba(139, 125, 73, 1) 35%
+    );
+}
+.imgDetails{
+    width: calc(100% - 40%);;
+    padding: 100px;
+}
+
+.title{
+    margin-top: 20px;
+}
+.status{
+    margin-top: 20px;
+    transition: all ease 3s;
+    cursor: pointer;
+}
+
+
+
+
+.instruction{
+    margin-top: 100px;
+}
+
+.instruction h5{
+    margin-bottom: 30px;
+    text-align: left;
+
+}
+
+ul li{
+margin-top: 20px;
+}
+
+.reservationSection{
+    margin-top: 30px;
+}

@@ -8,16 +8,20 @@ import NewPost from "./screens/newPost";
 import ResearchDetails from "./components/researchDetails"
 import BookReservation from "./screens/bookBook";
 import Profile from "../src/screens/profile"
+import Success from "../src/screens/success"
 const App = () => {
+  
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
+    
         <Route path="/research" element={<Research />} />
         <Route path="/booklist" element={<Search />} />
-        <Route path="/category" element={<Research />} />
+        {/* <Route path="/category" element={<Research />} /> */}
         <Route path="/research-proposal" element={<NewPost />} />
         <Route path="/research/:researchId" element={<ResearchDetails />} />
+        <Route path="/success-page" element={<Success />} />
+
         <Route path="/booklist/book/:bookId" element={<BookReservation />} />
         <Route path="/profile" element={<Profile  bookedBooks={[  {
     verticalCode: "BUF34285",
@@ -48,6 +52,7 @@ const App = () => {
     callingCode: "214.3 يوس",
     publishDate: "2014",
   },]} />} />
+          <Route path="/" element={<Home />} />
 
       </Routes>
     </>

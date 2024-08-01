@@ -1,5 +1,6 @@
 export default [
   {
+  id:1,
     verticalCode: "BUF34000",
     title: "First year applied mathematics / Norman Cannell.",
     author: "Cannell, Norman.",
@@ -7,6 +8,7 @@ export default [
     publishDate: "1956",
   },
   {
+  id:2,
     verticalCode: "BUF34001",
     title:
       "A course of mathematics for engineers and scientists/ Brian H. Chirgwin ; Plumpton, Charles.",
@@ -15,6 +17,7 @@ export default [
     publishDate: "1964",
   },
   {
+  id:3,
     verticalCode: "BUF34002",
     title:
       "A course of mathematics for engineers and scientists/ Brian H. Chirgwin and Charles Plumpton.",
@@ -23,6 +26,7 @@ export default [
     publishDate: "1972",
   },
   {
+  id:3,
     verticalCode: "BUF34003",
     title:
       "An elementary treatise on the dynamics of a particle and of rigid bodies. / S.L. Loney.",
@@ -31,6 +35,7 @@ export default [
     publishDate: "1960",
   },
   {
+  id:5,
     verticalCode: "BUF34004",
     title: "Calculus and analytic geometry. / William H. Durfee.",
     author: "Durfee , William H.",
@@ -38,6 +43,7 @@ export default [
     publishDate: "1971",
   },
   {
+  id:6,
     verticalCode: "BUF34005",
     title:
       "Science insights : exploring earth and space / Michael DiSpezio [and others].",
