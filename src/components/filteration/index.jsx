@@ -10,7 +10,6 @@ const FilterProposals = ({ onFilter }) => {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    console.log('Filter Values:', values);
     onFilter(values);
   };
 

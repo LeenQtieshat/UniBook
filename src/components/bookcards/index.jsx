@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from "react";
 import BookCard from "../bookcard";
-import books from "../../books";
+import {getBooks} from "../../firebase/books"
 function BookCards({ term, searchTerm }) {
-  const [filletedBooks, setBooks] = useState([...books]);
+  const [filteredBooks, setBooks] = useState([]);
+  const [books,setBooklist] = useState([])
+
+  useEffect(()=>{
+    (async ()=>{
+     const books  = await getBooks()
+     setBooklist([...books])
+     setBooks([...books])
+    })()
+  },[])
+
   useEffect(() => {
     if (searchTerm) {
       setBooks([]);
@@ -50,9 +60,9 @@ function BookCards({ term, searchTerm }) {
         padding: "30px",
       }}
     >
-      {filletedBooks.length > 0
-        ? filletedBooks.map(({ title, author,id}) => (
-            <BookCard title={title} author={author}  id={id}/>
+      {filteredBooks.length > 0
+        ? filteredBooks.map(({ title, author,id,reservedFrom, reservedUntil }) => (
+            <BookCard title={title} author={author}  id={id} reservedFrom={reservedFrom} reservedUntil={reservedUntil}/>
           ))
         : null}
     </div>

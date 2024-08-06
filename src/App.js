@@ -17,7 +17,6 @@ const App = () => {
     
         <Route path="/research" element={<Research />} />
         <Route path="/booklist" element={<Search />} />
-        {/* <Route path="/category" element={<Research />} /> */}
         <Route path="/research-proposal" element={<NewPost />} />
         <Route path="/research/:researchId" element={<ResearchDetails />} />
         <Route path="/success-page" element={<Success />} />

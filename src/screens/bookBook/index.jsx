@@ -3,16 +3,15 @@ import { Divider, Flex, Tag ,Button,Modal, DatePicker,Space} from 'antd';
 import React from 'react'
 import { useParams } from 'react-router-dom';
 import {useState, useEffect} from "react"
-import books  from "../../books"
 import "./styles.css"
 import { useNavigate } from 'react-router';
+import { getBook, reserveBook } from '../../firebase/books';
 
 const { RangePicker } = DatePicker;
 
 
 
 function BookPage() {
-  console.log("🚀 ~ books:", books)
 
   const { bookId } = useParams();
   const [book,setBook] = useState()
@@ -22,10 +21,9 @@ function BookPage() {
    const [selectedDates, setSelectedDates] = useState([]);
    const navigator = useNavigate()
 
-   const handleConfirm = () => {
-    console.log('Confirmed dates:', selectedDates);
+   const handleConfirm = async () => {
     setVisible(false);
-    
+     await reserveBook(bookId,{reservedFrom: selectedDates[0], reservedUntil:selectedDates[1]},JSON.parse(localStorage.getItem("userData")).id)
     navigator("/success-page")
     // Add any additional actions you want to perform on confirmation
   };
@@ -42,18 +40,17 @@ function BookPage() {
  
    // Function to handle date range change
    const handleDateChange = (dates, dateStrings) => {
-     console.log('Selected dates:', dateStrings);
      setSelectedDates(dateStrings);
    };
  
 
-  console.log("🚀 ~ BookPage ~ id:", bookId)
+  
   useEffect(()=>{
-    const [book] = books.filter(book => {
-      return book.id  == bookId
-    })
-
-    setBook(book)
+    (async()=>{
+      const book = await getBook(bookId)
+      setBook(book)
+    })()
+ 
   },[bookId])
 
   return (

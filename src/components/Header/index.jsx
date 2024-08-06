@@ -8,6 +8,7 @@ import { SearchOutlined, LoginOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { useNavigate } from "react-router";
 import {AuthContext} from "../../context/auth/authContext"
+import {checkIfUserExists,addUser, getUser} from "../../firebase/users"
 
 
 
@@ -15,7 +16,21 @@ function Nav() {
   const [displayMenu, setDisplay] = useState(false);
   const navigator = useNavigate()
   const authContextConsumer = useContext(AuthContext)
-console.log("√",authContextConsumer)
+      const setUserDetails = async(accountInfo)=>{
+      const isExist =  await  checkIfUserExists(accountInfo.account.userName)
+      let userData
+      if(!isExist) {
+
+        userData = await addUser({firstName:accountInfo.account.name,lastName:accountInfo.account.name,email:accountInfo.account.userName})
+      } else {
+        const res = await getUser(accountInfo.account.userName);
+        userData = res
+      }
+
+      localStorage.setItem("userData",JSON.stringify(userData))
+    
+     }
+
   return (
     <div className="headerContainer">
       <div className="headerLogo">
@@ -47,6 +62,8 @@ console.log("√",authContextConsumer)
             switch (authenticationState) {
               case "Authenticated": {
                 authContextConsumer.authLogin(accountInfo)
+                setUserDetails(accountInfo)
+          
                 return (
                   <div className="avatarContainer">
                     <p
@@ -72,12 +89,16 @@ console.log("√",authContextConsumer)
                               label: "Logout",
                             },  {
                               key: "2",
-                              label: "profile",
+                              label: "profile", 
                             },
                           ]}
                           onClick={(e) =>{
-if(e.key == 1) logout()
-navigator("/profile")}
+if(e.key == 1) {logout()
+  navigator("/")
+  localStorage.removeItem("userData")
+}else{
+  navigator("/profile")
+}}
                           }
                         />
                       </div>

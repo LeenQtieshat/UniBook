@@ -3,7 +3,6 @@ import MicrosoftLogin from "react-microsoft-login";
 
 export default (props) => {
   const authHandler = (err, data) => {
-    console.log(err, data);
   };
 
   return (

@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import {AuthContext} from "../../context/auth/authContext"
 function Search() {
   const {isAuthenticated} = useContext(AuthContext)
-  console.log("🚀 ~ Search ~ isAuthenticated:", isAuthenticated)
   const navigator = useNavigate()
   useEffect(()=>{
     if(!isAuthenticated) navigator("/")

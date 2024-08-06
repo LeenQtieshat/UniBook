@@ -10,15 +10,12 @@ function BookList() {
   const [term, setTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const {isAuthenticated} = useContext(AuthContext)
-  console.log("🚀 ~ BookList ~ isAuthenticated:", isAuthenticated)
   const navigator = useNavigate()
 
 
   if(!isAuthenticated) {
      navigator("/")
-   console.log( "----",    navigator("/")
-  )
-    console.log("rrrrrr")
+  
   }
 
   return (

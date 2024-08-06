@@ -1,10 +1,12 @@
 import { Menu } from 'antd';
-import {  AppstoreOutlined,UserAddOutlined ,BookFilled,InfoCircleFilled,LikeFilled,IdcardOutlined } from '@ant-design/icons';
+import {  AppstoreOutlined,UserAddOutlined ,BookFilled,InfoCircleFilled,LikeFilled,IdcardOutlined,ArrowLeftOutlined } from '@ant-design/icons';
 import Header from "../../components/Header"
 import { useContext, useEffect, useState } from 'react';
 import { Segmented ,Popover ,Row, Col, Typography,message,List} from 'antd';
 import {AuthContext} from "../../context/auth/authContext"
 import { useNavigate } from 'react-router';
+import { getUser } from '../../firebase/users';
+import { getBook, getBooks, returnBook } from '../../firebase/books';
 
 const { Title, Text } = Typography;
 
@@ -13,127 +15,35 @@ const App = () => {
   const [likes,setLikes] = useState([])
   const [comments,setComments] = useState([])
   const [selectedOption, setSelectedOption] = useState('');
+
   const {isAuthenticated} = useContext(AuthContext)
   const navigator = useNavigate()
+  const onReturnBook = async (book) =>{
+    console.log('book', book)
+    const userId = JSON.parse(localStorage.getItem("userData")).id
+    await returnBook(book.id, userId)
+    const newBooks = [...books].filter(item => item.id !== book.id);
+    setBooks(newBooks)
+  }
 
   useEffect(()=>{
-    setBooks( [
-      {
-        verticalCode: "BUF34000",
-        title: "First year applied mathematics / Norman Cannell.",
-        author: "Cannell, Norman.",
-        callingCode: "510 CAN",
-        publishDate: "1956",
-      },
-      {
-        verticalCode: "BUF34001",
-        title:
-          "A course of mathematics for engineers and scientists/ Brian H. Chirgwin ; Plumpton, Charles.",
-        author: "Chirgwin, Brian H.",
-        callingCode: "510 CHI",
-        publishDate: "1964",
-      },
-      {
-        verticalCode: "BUF34002",
-        title:
-          "A course of mathematics for engineers and scientists/ Brian H. Chirgwin and Charles Plumpton.",
-        author: "Chirgwin, Brian H.",
-        callingCode: "510 CHI",
-        publishDate: "1972",
-      },
-      {
-        verticalCode: "BUF34003",
-        title:
-          "An elementary treatise on the dynamics of a particle and of rigid bodies. / S.L. Loney.",
-        author: "LONEY , S. L.",
-        callingCode: "620.104 LON",
-        publishDate: "1960",
-      },
-      {
-        verticalCode: "BUF34004",
-        title: "Calculus and analytic geometry. / William H. Durfee.",
-        author: "Durfee , William H.",
-        callingCode: "515.15 DUR",
-        publishDate: "1971",
-      }])
-    setLikes( [
-      {
-        verticalCode: "BUF34000",
-        title: "First year applied mathematics / Norman Cannell.",
-        author: "Cannell, Norman.",
-        callingCode: "510 CAN",
-        publishDate: "1956",
-      },
-      {
-        verticalCode: "BUF34001",
-        title:
-          "A course of mathematics for engineers and scientists/ Brian H. Chirgwin ; Plumpton, Charles.",
-        author: "Chirgwin, Brian H.",
-        callingCode: "510 CHI",
-        publishDate: "1964",
-      },
-      {
-        verticalCode: "BUF34002",
-        title:
-          "A course of mathematics for engineers and scientists/ Brian H. Chirgwin and Charles Plumpton.",
-        author: "Chirgwin, Brian H.",
-        callingCode: "510 CHI",
-        publishDate: "1972",
-      },
-      {
-        verticalCode: "BUF34003",
-        title:
-          "An elementary treatise on the dynamics of a particle and of rigid bodies. / S.L. Loney.",
-        author: "LONEY , S. L.",
-        callingCode: "620.104 LON",
-        publishDate: "1960",
-      },
-      {
-        verticalCode: "BUF34004",
-        title: "Calculus and analytic geometry. / William H. Durfee.",
-        author: "Durfee , William H.",
-        callingCode: "515.15 DUR",
-        publishDate: "1971",
-      }])
-    setComments( [
-      {
-        verticalCode: "BUF34000",
-        title: "First year applied mathematics / Norman Cannell.",
-        author: "Cannell, Norman.",
-        callingCode: "510 CAN",
-        publishDate: "1956",
-      },
-      {
-        verticalCode: "BUF34001",
-        title:
-          "A course of mathematics for engineers and scientists/ Brian H. Chirgwin ; Plumpton, Charles.",
-        author: "Chirgwin, Brian H.",
-        callingCode: "510 CHI",
-        publishDate: "1964",
-      },
-      {
-        verticalCode: "BUF34002",
-        title:
-          "A course of mathematics for engineers and scientists/ Brian H. Chirgwin and Charles Plumpton.",
-        author: "Chirgwin, Brian H.",
-        callingCode: "510 CHI",
-        publishDate: "1972",
-      },
-      {
-        verticalCode: "BUF34003",
-        title:
-          "An elementary treatise on the dynamics of a particle and of rigid bodies. / S.L. Loney.",
-        author: "LONEY , S. L.",
-        callingCode: "620.104 LON",
-        publishDate: "1960",
-      },
-      {
-        verticalCode: "BUF34004",
-        title: "Calculus and analytic geometry. / William H. Durfee.",
-        author: "Durfee , William H.",
-        callingCode: "515.15 DUR",
-        publishDate: "1971",
-      }])
+  (async()=>{
+   const {reservedBooks,likedBooks,comments} = await getUser(JSON.parse(localStorage.getItem("userData")).email)
+   const books = await getBooks()
+   if(reservedBooks){
+
+   const reserved = books.filter(book =>reservedBooks.includes(book.id) )
+    setBooks([...reserved])
+   }
+   if(likedBooks){
+    const liked = books.filter(book =>likedBooks.includes(book.id) )
+    setLikes([...liked])
+   }
+   if(comments){
+    setComments([...comments])
+   }
+  })()
+
   },[])
   const handleChange = (value) => {
     setSelectedOption(value);
@@ -185,7 +95,7 @@ const App = () => {
     </div>
   </div>
   <Menu mode="horizontal"  style={{marginTop:"40px",fontSize:"18px"}}>
-  <Menu.Item key="profileß" icon={<IdcardOutlined/>} onClick={()=>{
+  <Menu.Item key="profile" icon={<IdcardOutlined/>} onClick={()=>{
     setDisplayBook(false)
     setDisplayLikes(false)
     setDisplayComments(false)
@@ -243,12 +153,13 @@ const App = () => {
   }}> 
      
     <List 
-      header={<div> <b>Liked Books </b></div>} 
+      header={<div> <b>Reserved Books </b></div>} 
       bordered 
       dataSource={books.map(book =>book.title)} 
-      renderItem={item => ( 
-        <List.Item style={{fontSize:"18px"}}> 
-          {item} 
+      renderItem={(item, index) => ( 
+        <List.Item style={{fontSize:"18px",display:"flex"}}> 
+          <div> {item} </div> 
+          <div><ArrowLeftOutlined style={{cursor:"pointer"}} onClick={() => onReturnBook(books[index])}/></div>
         </List.Item> 
       )} 
     /> 
@@ -264,7 +175,7 @@ const App = () => {
     <List 
       header={<div> <b>Comments</b></div>} 
       bordered 
-      dataSource={books.map(book =>book.title)} 
+      dataSource={comments.map(comment =>comment)} 
       renderItem={item => ( 
         <List.Item style={{fontSize:"18px"}} > 
           {item} 
@@ -280,9 +191,9 @@ const App = () => {
   }}> 
      
     <List 
-      header={<div> <b>Reserved Books </b></div>} 
+      header={<div> <b>Liked Books </b></div>} 
       bordered 
-      dataSource={books.map(book =>book.title)} 
+      dataSource={likes.map(book =>book.title)} 
       renderItem={item => ( 
         <List.Item style={{fontSize:"18px"}}> 
           {item} 
