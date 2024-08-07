@@ -30,7 +30,7 @@ function BookList() {
      
       <Title level={2} style={{ textAlign: 'center' }}>Research Proposals</Title>
  <div>
- <Filtration/>
+ 
  <Proposals/>
  </div>
  
