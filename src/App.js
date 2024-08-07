@@ -12,11 +12,15 @@ import Success from "../src/screens/success"
 import EditResearchProposal from "./components/EditResearchProposal"
 import YourResearches from "./screens/editProposal";
 import AboutUS from "./screens/aboutus";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const App = () => {
   
   return (
     <>
+          <ToastContainer className="toast-container"/>
+
       <Routes>
     
         <Route path="/research" element={<Research />} />
@@ -26,35 +30,7 @@ const App = () => {
         <Route path="/success-page" element={<Success />} />
 
         <Route path="/booklist/book/:bookId" element={<BookReservation />} />
-        <Route path="/profile" element={<Profile  bookedBooks={[  {
-    verticalCode: "BUF34285",
-    title: "الظواهر الفلكية والجوية في القرآن الكريم / رفيق جميل شاكر الخانجي.",
-    author: "الخانجي، رفيق جميل شاكر،",
-    callingCode: "227.5 خان",
-    publishDate: "2002",
-  },
-  {
-    verticalCode: "BUF34286",
-    title:
-      "آيات الساعة العظمى : يأجوج ومأجوج-المسيح الدجال-الدابة / تأليف عصام يوسف.",
-    author: "يوسف، عصام.",
-    callingCode: "214.3 يوس",
-    publishDate: "2014",
-  },]} likedBooks={[  {
-    verticalCode: "BUF34285",
-    title: "الظواهر الفلكية والجوية في القرآن الكريم / رفيق جميل شاكر الخانجي.",
-    author: "الخانجي، رفيق جميل شاكر،",
-    callingCode: "227.5 خان",
-    publishDate: "2002",
-  },
-  {
-    verticalCode: "BUF34286",
-    title:
-      "آيات الساعة العظمى : يأجوج ومأجوج-المسيح الدجال-الدابة / تأليف عصام يوسف.",
-    author: "يوسف، عصام.",
-    callingCode: "214.3 يوس",
-    publishDate: "2014",
-  },]} />} />
+        <Route path="/profile" element={<Profile  />} />
     <Route path="/edit-proposal" element={<YourResearches/>}/>
   <Route path="/edit-proposal/:id" element={<EditResearchProposal/>}/>
   <Route path="/aboutus" element={<AboutUS/>}/>
