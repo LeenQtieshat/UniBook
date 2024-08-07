@@ -7,6 +7,9 @@ import {AuthContext} from "../../context/auth/authContext"
 import { useNavigate } from 'react-router';
 import { getUser } from '../../firebase/users';
 import { getBook, getBooks, returnBook } from '../../firebase/books';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
+import { Link } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
@@ -18,12 +21,25 @@ const App = () => {
 
   const {isAuthenticated} = useContext(AuthContext)
   const navigator = useNavigate()
+  const showAlert = () => {
+    toast.success('The book has been returned! Thank you', {
+      position: "top-right", // Position the toast at the top-right
+      autoClose: 3000, // Auto-close after 3 seconds
+      hideProgressBar: false, // Show progress bar
+      closeOnClick: true, // Close on click
+      pauseOnHover: true, // Pause on hover
+      draggable: true, // Allow dragging
+      className: 'custom-toast', // Apply custom styling
+    });
+  };
   const onReturnBook = async (book) =>{
     console.log('book', book)
     const userId = JSON.parse(localStorage.getItem("userData")).id
     await returnBook(book.id, userId)
     const newBooks = [...books].filter(item => item.id !== book.id);
     setBooks(newBooks)
+    showAlert()
+
   }
 
   useEffect(()=>{
@@ -159,7 +175,7 @@ const App = () => {
       renderItem={(item, index) => ( 
         <List.Item style={{fontSize:"18px",display:"flex"}}> 
           <div> {item} </div> 
-          <div><ArrowLeftOutlined style={{cursor:"pointer"}} onClick={() => onReturnBook(books[index])}/></div>
+          <div onClick={() => onReturnBook(books[index])}><ArrowLeftOutlined style={{cursor:"pointer"}} /><span style={{paddingLeft:"10PX",cursor:"pointer"}}><Link>Return Book</Link></span></div>
         </List.Item> 
       )} 
     /> 
