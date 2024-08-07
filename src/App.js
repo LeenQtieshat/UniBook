@@ -9,6 +9,10 @@ import ResearchDetails from "./components/researchDetails"
 import BookReservation from "./screens/bookBook";
 import Profile from "../src/screens/profile"
 import Success from "../src/screens/success"
+import EditResearchProposal from "./components/EditResearchProposal"
+import YourResearches from "./screens/editProposal";
+import AboutUS from "./screens/aboutus";
+
 const App = () => {
   
   return (
@@ -51,7 +55,11 @@ const App = () => {
     callingCode: "214.3 يوس",
     publishDate: "2014",
   },]} />} />
+    <Route path="/edit-proposal" element={<YourResearches/>}/>
+  <Route path="/edit-proposal/:id" element={<EditResearchProposal/>}/>
+  <Route path="/aboutus" element={<AboutUS/>}/>
           <Route path="/" element={<Home />} />
+
 
       </Routes>
     </>

@@ -47,6 +47,8 @@ function Sidebare({ setTerm, researchPage}) {
       key: "Edit Proposal",
       label: "Edit Proposal",
       icon: <BookOutlined />,
+      onClick:()=>router("/edit-proposal")
+
     
     },
     {

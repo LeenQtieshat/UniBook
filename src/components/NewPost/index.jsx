@@ -28,7 +28,7 @@ const day = String(today.getDate()).padStart(2, '0');
 
 // Format the full date as YYYY-MM-DD
 const fullDate = `${year}-${month}-${day}`;
-    await addResearch({...values,date:fullDate })
+    await addResearch({...values,date:fullDate,doctorId:JSON.parse(localStorage.getItem("userData")).id})
     setLoading(false)
     setSuccess(true)
     form.resetFields()
