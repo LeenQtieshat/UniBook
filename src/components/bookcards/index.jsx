@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import BookCard from "../bookcard";
-import {getBooks} from "../../firebase/books"
-function BookCards({ term, searchTerm }) {
+import { getBooks } from "../../firebase/books";
+function BookCards({ term, searchTerm, sortBy }) {
   const [filteredBooks, setBooks] = useState([]);
-  const [books,setBooklist] = useState([])
+  const [books, setBooklist] = useState([]);
 
-  useEffect(()=>{
-    (async ()=>{
-     const books  = await getBooks()
-     setBooklist([...books])
-     setBooks([...books])
-    })()
-  },[])
+  useEffect(() => {
+    (async () => {
+      const books = await getBooks();
+      setBooklist([...books]);
+      setBooks([...books]);
+    })();
+  }, []);
 
   useEffect(() => {
     if (searchTerm) {
@@ -48,7 +48,31 @@ function BookCards({ term, searchTerm }) {
     } else {
       setBooks(books);
     }
-  }, [term, searchTerm]);
+
+    if (sortBy) {
+      if (sortBy === "rate") {
+        const booksWithRating = books.filter((book) => book.averageRating);
+        const booksWithoutRating = books.filter((book) => !book.averageRating);
+        const sortedBooks = [
+          ...booksWithRating.sort(
+        (a, b) => b.averageRating - a.averageRating
+          ),
+          ...booksWithoutRating
+        ];
+        setBooks(sortedBooks);
+      }
+
+      if (sortBy === "reservation") {
+        const sortedBooks = [...books].sort(
+          (a, b) => b.reservationCount - a.reservationCount
+        );
+        setBooks(sortedBooks);
+      }
+    } else {
+      setBooks(books);
+    }
+  }, [term, searchTerm, sortBy]);
+
 
   return (
     <div
@@ -61,9 +85,27 @@ function BookCards({ term, searchTerm }) {
       }}
     >
       {filteredBooks.length > 0
-        ? filteredBooks.map(({ title, author,id,reservedFrom, reservedUntil }) => (
-            <BookCard title={title} author={author}  id={id} reservedFrom={reservedFrom} reservedUntil={reservedUntil}/>
-          ))
+        ? filteredBooks.map(
+            ({
+              title,
+              author,
+              id,
+              reservedFrom,
+              reservedUntil,
+              averageRating,
+              reservationCount,
+            }) => (
+              <BookCard
+                reservationCount={reservationCount}
+                rating={averageRating}
+                title={title}
+                author={author}
+                id={id}
+                reservedFrom={reservedFrom}
+                reservedUntil={reservedUntil}
+              />
+            )
+          )
         : null}
     </div>
   );

@@ -6,18 +6,21 @@ import BookCards from "../bookcards";
 function BookList() {
   const [term, setTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  
+  console.log('this is the sort by',sortBy)
   
   return (
     <div style={{ display: "flex" }}>
       {/* Sidebare */}
       <div style={{ width: "305px" }}>
-        <Sidebare setTerm={setTerm} />
+        <Sidebare set setTerm={setTerm} />
       </div>
 
       {/*search bar */}
       <div style={{ width: "calc(100% - 305px)" }}>
-        <Search term={term} setSearchTerm={setSearchTerm} />
-        <BookCards term={term} searchTerm={searchTerm} />
+        <Search setSortBy={setSortBy} term={term} setSearchTerm={setSearchTerm} />
+        <BookCards sortBy={sortBy} term={term} searchTerm={searchTerm} />
       </div>
     </div>
   );

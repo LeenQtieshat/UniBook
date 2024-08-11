@@ -48,8 +48,8 @@ export const updateDoctorDetails = async (id, doctor) => {
   console.log("Document successfully updated!");
 };
 
-export const checkIfCurrentUserIsDoctor = async (userId) => {
+export const checkIfCurrentUserIsDoctor = async (email) => {
     const doctors = await getDoctors();
-    return doctors.some((doctor) => doctor.id === userId);
+    return doctors.some((doctor) => doctor.email === email);
 };
 

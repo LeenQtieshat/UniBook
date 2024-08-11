@@ -5,6 +5,8 @@ import {AuthContext} from "../../context/auth/authContext"
 function Search() {
   const {isAuthenticated} = useContext(AuthContext)
   const navigator = useNavigate()
+
+  console.log(useContext(AuthContext))
   useEffect(()=>{
     if(!isAuthenticated) navigator("/")
   },[])

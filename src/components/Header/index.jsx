@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Menu } from "antd";
 import { AzureAD } from "react-aad-msal";
 import { authProvider } from "../../authProvider";
@@ -7,29 +7,40 @@ import "./styles.css";
 import { SearchOutlined, LoginOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { useNavigate } from "react-router";
-import {AuthContext} from "../../context/auth/authContext"
-import {checkIfUserExists,addUser, getUser} from "../../firebase/users"
-
-
+import { AuthContext } from "../../context/auth/authContext";
+import { checkIfUserExists, addUser, getUser } from "../../firebase/users";
+import { checkIfCurrentUserIsDoctor } from "../../firebase/doctors";
 
 function Nav() {
   const [displayMenu, setDisplay] = useState(false);
-  const navigator = useNavigate()
-  const authContextConsumer = useContext(AuthContext)
-      const setUserDetails = async(accountInfo)=>{
-      const isExist =  await  checkIfUserExists(accountInfo.account.userName)
-      let userData
-      if(!isExist) {
+  const [isCurrentUserDoctor, setIsCurrentUserDoctor] = useState(false);
+  const navigator = useNavigate();
+  const authContextConsumer = useContext(AuthContext);
+  const setUserDetails = async (accountInfo) => {
+    const isExist = await checkIfUserExists(accountInfo.account.userName);
+    let userData;
+    if (!isExist) {
+      userData = await addUser({
+        firstName: accountInfo.account.name,
+        lastName: accountInfo.account.name,
+        email: accountInfo.account.userName,
+      });
+    } else {
+      const res = await getUser(accountInfo.account.userName);
+      userData = res;
+    }
 
-        userData = await addUser({firstName:accountInfo.account.name,lastName:accountInfo.account.name,email:accountInfo.account.userName})
-      } else {
-        const res = await getUser(accountInfo.account.userName);
-        userData = res
-      }
+    const isUserDoctor = await checkIfCurrentUserIsDoctor(userData.email);
+    setIsCurrentUserDoctor(isUserDoctor);
+    localStorage.setItem("userData", JSON.stringify(userData));
+  };
 
-      localStorage.setItem("userData",JSON.stringify(userData))
-    
-     }
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      authContextConsumer.authLogin(userData);
+    }
+  }, []);
 
   return (
     <div className="headerContainer">
@@ -41,9 +52,11 @@ function Nav() {
           <li>
             <Link to="/">Home</Link>
           </li>
-          <li>
-            <Link to="/research">Research</Link>
-          </li>
+          {isCurrentUserDoctor && (
+            <li>
+              <Link to="/research">Research</Link>
+            </li>
+          )}
           <li>
             <Link to="/booklist">BookList</Link>
           </li>
@@ -61,9 +74,8 @@ function Nav() {
           {({ login, logout, authenticationState, accountInfo }) => {
             switch (authenticationState) {
               case "Authenticated": {
-                authContextConsumer.authLogin(accountInfo)
-                setUserDetails(accountInfo)
-          
+                authContextConsumer.authLogin(accountInfo);
+                setUserDetails(accountInfo);
                 return (
                   <div className="avatarContainer">
                     <p
@@ -87,19 +99,21 @@ function Nav() {
                             {
                               key: "1",
                               label: "Logout",
-                            },  {
+                            },
+                            {
                               key: "2",
-                              label: "profile", 
+                              label: "profile",
                             },
                           ]}
-                          onClick={(e) =>{
-if(e.key == 1) {logout()
-  navigator("/")
-  localStorage.removeItem("userData")
-}else{
-  navigator("/profile")
-}}
-                          }
+                          onClick={(e) => {
+                            if (e.key == 1) {
+                              logout();
+                              navigator("/");
+                              localStorage.removeItem("userData");
+                            } else {
+                              navigator("/profile");
+                            }
+                          }}
                         />
                       </div>
                     )}

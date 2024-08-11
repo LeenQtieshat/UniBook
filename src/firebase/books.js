@@ -164,7 +164,16 @@ export const rateBook = async (userId, bookId, rating) => {
   if (bookSnap.exists()) {
     const bookData = bookSnap.data();
     const ratings = bookData.ratings || [];
-    ratings.push({ rating, userId });
+    const existingRatingIndex = ratings.findIndex((r) => r.userId === userId);
+
+    if (existingRatingIndex !== -1) {
+      // If the user has already rated the book, update their rating
+      ratings[existingRatingIndex].rating = rating;
+    } else {
+      // If the user has not rated the book, add their rating
+      ratings.push({ rating, userId });
+    }
+
     const averageRating = calculateAverageRating(ratings.map((r) => r.rating));
 
     const updatedBook = {

@@ -9,19 +9,27 @@ import {
 import { db } from "./config.js";
 
 export const addUser = async (user) => {
+  const users = await getUsers();
+  const userExists = users.some((u) => u.email === user.email);
+  if (userExists) {
+    return null;
+  }
 
-
-  // Create a reference to the new document
   const docRef = doc(collection(db, "users"));
-
-  // Set the document with the specified data
   await setDoc(docRef, user);
+  const docSnap = await getDoc(docRef);
 
-  // Log the document reference and its ID
-  console.log("Document written with ID: ", docRef);
-  return docRef
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    return {
+      name: data.name,
+      email: data.email,
+    };
+  } else {
+    console.error("No such document!");
+    return null;
+  }
 };
-
 
 
 export const getUsers = async () => {
