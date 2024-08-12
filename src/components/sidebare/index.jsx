@@ -1,13 +1,26 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import { checkIfCurrentUserIsDoctor } from "../../firebase/doctors";
 import { Button, Menu } from "antd";
 import { BookOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 
-
 import styles from "./style.module.css";
 import { useNavigate } from "react-router";
-function Sidebare({ setTerm, researchPage}) {
- const router =  useNavigate()
+function Sidebare({ setTerm, researchPage }) {
+  const router = useNavigate();
+  const [isUserDoctor, setIsUserDoctor] = useState(false);
+
+  const checkCurrentUser = async () => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    if (userData) {
+      const isUserDoctor = await checkIfCurrentUserIsDoctor(userData.email);
+      setIsUserDoctor(isUserDoctor);
+    }
+  };
+
+  useEffect(() => {
+    checkCurrentUser();
+  }, []);
+
   const onClick = (e) => {
     setTerm(e.key);
   };
@@ -33,31 +46,37 @@ function Sidebare({ setTerm, researchPage}) {
       key: "Back",
       label: "Back",
       icon: <ArrowLeftOutlined />,
-      onClick:()=>window.history.back()
+      onClick: () => window.history.back(),
     },
   ];
   const researchItem = [
     {
-      key: "add",
-      label: "Research Proposal",
-      icon: <BookOutlined />,
-      onClick:()=>router("/research-proposal")
-    },
-    {
-      key: "Edit Proposal",
-      label: "Edit Proposal",
-      icon: <BookOutlined />,
-      onClick:()=>router("/edit-proposal")
-
-    
-    },
-    {
       key: "Back",
       label: "Back",
       icon: <ArrowLeftOutlined />,
-      onClick:()=>window.history.back()
+      onClick: () => window.history.back(),
     },
   ];
+
+  if (isUserDoctor) {
+    researchItem.unshift(
+      ...[
+        {
+          key: "add",
+          label: "Research Proposal",
+          icon: <BookOutlined />,
+          onClick: () => router("/research-proposal"),
+        },
+        {
+          key: "Edit Proposal",
+          label: "Edit Proposal",
+          icon: <BookOutlined />,
+          onClick: () => router("/edit-proposal"),
+        },
+      ]
+    );
+  }
+
   return (
     <div className={styles.sidebareContainer}>
       <div
@@ -76,12 +95,10 @@ function Sidebare({ setTerm, researchPage}) {
         defaultSelectedKeys={["1"]}
         defaultOpenKeys={["sub1"]}
         mode="inline"
-        items={researchPage? researchItem: items}
+        items={researchPage ? researchItem : items}
         className={styles.menu}
-        style={{ width: "305px", height: "calc( 100vh - 50px)"}}
+        style={{ width: "305px", height: "calc( 100vh - 50px)" }}
       />
-
-
     </div>
   );
 }

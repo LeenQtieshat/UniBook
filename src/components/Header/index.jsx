@@ -9,11 +9,9 @@ import { Avatar } from "antd";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../context/auth/authContext";
 import { checkIfUserExists, addUser, getUser } from "../../firebase/users";
-import { checkIfCurrentUserIsDoctor } from "../../firebase/doctors";
 
 function Nav() {
   const [displayMenu, setDisplay] = useState(false);
-  const [isCurrentUserDoctor, setIsCurrentUserDoctor] = useState(false);
   const navigator = useNavigate();
   const authContextConsumer = useContext(AuthContext);
   const setUserDetails = async (accountInfo) => {
@@ -29,9 +27,6 @@ function Nav() {
       const res = await getUser(accountInfo.account.userName);
       userData = res;
     }
-
-    const isUserDoctor = await checkIfCurrentUserIsDoctor(userData.email);
-    setIsCurrentUserDoctor(isUserDoctor);
     localStorage.setItem("userData", JSON.stringify(userData));
   };
 
@@ -52,11 +47,9 @@ function Nav() {
           <li>
             <Link to="/">Home</Link>
           </li>
-          {isCurrentUserDoctor && (
             <li>
               <Link to="/research">Research</Link>
             </li>
-          )}
           <li>
             <Link to="/booklist">BookList</Link>
           </li>
@@ -121,6 +114,7 @@ function Nav() {
                 );
               }
               case "Unauthenticated":
+                localStorage.removeItem("userData");
                 return (
                   <div>
                     <p>
