@@ -49,29 +49,7 @@ function BookCards({ term, searchTerm, sortBy }) {
       setBooks(books);
     }
 
-    if (sortBy) {
-      if (sortBy === "rate") {
-        const booksWithRating = books.filter((book) => book.averageRating);
-        const booksWithoutRating = books.filter((book) => !book.averageRating);
-        const sortedBooks = [
-          ...booksWithRating.sort(
-        (a, b) => b.averageRating - a.averageRating
-          ),
-          ...booksWithoutRating
-        ];
-        setBooks(sortedBooks);
-      }
-
-      if (sortBy === "reservation") {
-        const sortedBooks = [...books].sort(
-          (a, b) => b.reservationCount - a.reservationCount
-        );
-        setBooks(sortedBooks);
-      }
-    } else {
-      setBooks(books);
-    }
-  }, [term, searchTerm, sortBy]);
+  }, [term, searchTerm]);
 
 
   return (

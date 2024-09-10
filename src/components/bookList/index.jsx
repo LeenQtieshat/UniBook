@@ -6,10 +6,10 @@ import BookCards from "../bookcards";
 function BookList() {
   const [term, setTerm] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("");
+  // const [sortBy, setSortBy] = useState("");
   
   console.log('this is the sort by',sortBy)
-  
+  console.log("this is the term",term)
   return (
     <div style={{ display: "flex" }}>
       {/* Sidebare */}
